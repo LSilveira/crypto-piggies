@@ -1,0 +1,926 @@
+.hidden {
+    display: none;
+}
+
+#head {
+    background-color: rgb(248, 182, 228);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.eyes {
+    position: relative;
+    top: 30px;
+    display: flex;
+}
+
+.eye {
+    background-color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 25px;
+    position: relative;
+}
+
+.pupils {
+    background-color: black;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+.big_pupil_ball {
+    background-color: rgb(255, 255, 255);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 7px;
+    left: 10px;
+}
+
+.pupil_ball_closed_eye {
+    top: 3px !important;
+}
+
+.small_pupil_ball {
+    background-color: rgb(255, 255, 255);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    position: absolute;
+    top: 21px;
+    left: 9px;
+}
+
+.medium_pupil_ball {
+    display: none;
+    background-color: rgb(255, 255, 255);
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 16px;
+    left: 21px;
+}
+
+.ears {
+    position: relative;
+}
+
+.ear {
+    border-radius: 90px 0px 90px 0px;
+    background-color: rgb(248, 182, 228);
+    height: 100px;
+    width: 100px;
+    position: absolute;
+}
+
+.left_ear {
+    transform: scale(1,-1);
+    left: 0px;
+}
+
+.right_ear {
+    left: 100px;
+}
+
+.inner_ear {
+    border-radius: 90px 0px 90px 0px;
+    background-color: rgb(218, 24, 159);
+    height: 80px;
+    width: 80px;
+    top: 11px;
+    position: absolute;
+    left: 10px;
+}
+
+.inner_ear_left {
+    
+}
+
+.inner_ear_right {
+    
+}
+
+.nose {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 50%;
+    left: 73px;
+    display: flex;
+}
+
+.nose_whole {
+    background-color: rgb(209, 38, 158);
+    border-style: solid;
+    border-width: thin;
+    border-radius: 50%;
+    width: 10px;
+    height: 25px;
+    position: absolute;
+    top: 13px;
+}
+
+.nose_whole_left {
+    left: 10px;
+}
+
+.nose_whole_right {
+    left: 27px;
+}
+
+.mouth {
+    background-color: black;
+    width: 51px;
+    height: 39px;
+    border-radius: 34px;
+    left: 73px;
+    position: relative;
+    top: 4px;
+}
+
+.lip {
+    width: 20px;
+    height: 11px;
+    background-color: red;
+    top: 26px;
+    position: absolute;
+    left: 15px;
+    border-radius: 50px;
+    transform: rotate(16deg);
+}
+
+.lip_middle {
+    background-color: black;
+    width: 9px;
+    height: 0.5px;
+    left: 5px;
+    position: absolute;
+    top: 5px;
+}
+
+.teeth {
+    background-color: white;
+    width: 9px;
+    height: 10px;
+    position: absolute;
+    border-radius: 20% 20% 40% 40%;
+}
+
+.teeth_left {
+    left: 15px;
+}
+
+.teeth_right {
+    left: 26px;
+}
+
+.smile_mouth {
+    width: 154px;
+    height: 82px;
+    border: solid 5px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(180deg);
+    top: -52px;
+    position: relative;
+    left: 22px;
+}
+
+.happy_mouth {
+    width: 65px;
+    height: 67px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(180deg);
+    top: -52px;
+    position: relative;
+    left: 64px;
+}
+
+.side_smile_mouth {
+    width: 65px;
+    height: 67px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(156deg);
+    top: -52px;
+    position: relative;
+    left: 71px;
+}
+
+.teeth_smile {
+    width: 168px;
+    height: 93px;
+    border: solid 34px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(180deg);
+    top: -52px;
+    position: relative;
+    left: 14px;
+}
+
+.teeth_smile_top {
+    background-color: white;
+    width: 13px;
+    height: 15px;
+    position: absolute;
+    border-radius: 40% 40% 20% 20%;
+}
+
+.teeth_smile_bottom {
+    background-color: white;
+    width: 13px;
+    height: 15px;
+    position: absolute;
+    border-radius: 20% 20% 40% 40%;
+}
+
+.teeth_smile_top_1 {
+    left: 78px;
+    transform: rotate(35deg);
+    top: -4px;
+}
+
+.teeth_smile_top_2 {
+    left: 65px;
+    transform: rotate(23deg);
+    top: -11px;
+}
+
+.teeth_smile_top_3 {
+    left: 51px;
+    transform: rotate(8deg);
+    top: -15px;
+}
+
+.teeth_smile_top_4 {
+    left: 37px;
+    transform: rotate(-7deg);
+    top: -15px;
+}
+
+.teeth_smile_top_5 {
+    left: 22px;
+    transform: rotate(-25deg);
+    top: -11px;
+}
+
+.teeth_smile_top_6 {
+    left: 9px;
+    transform: rotate(-37deg);
+    top: -4px;
+}
+
+.teeth_smile_bottom_1 {
+    left: 90px;
+    transform: rotate(35deg);
+    top: -17px;
+}
+
+.teeth_smile_bottom_2 {
+    left: 78px;
+    transform: rotate(30deg);
+    top: -25px;
+}
+
+.teeth_smile_bottom_3 {
+    left: 65px;
+    transform: rotate(22deg);
+    top: -30px;
+}
+
+.teeth_smile_bottom_4 {
+    left: 51px;
+    transform: rotate(10deg);
+    top: -33px;
+}
+
+.teeth_smile_bottom_5 {
+    left: 36px;
+    transform: rotate(-12deg);
+    top: -33px;
+}
+
+.teeth_smile_bottom_6 {
+    left: 22px;
+    transform: rotate(-21deg);
+    top: -30px;
+}
+
+.teeth_smile_bottom_7 {
+    left: 9px;
+    transform: rotate(-26deg);
+    top: -25px;
+}
+
+.teeth_smile_bottom_8 {
+    left: -3px;
+    transform: rotate(-38deg);
+    top: -17px;
+}
+
+.tongue_out_mouth {
+    width: 65px;
+    height: 67px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(156deg);
+    top: -44px;
+    position: relative;
+    left: 66px;
+}
+
+.tongue_out {
+    background-color: red;
+    width: 15px;
+    height: 25px;
+    position: relative;
+    top: -24px;
+    left: 10px;
+    transform: rotate(-20deg);
+    border-radius: 50% 50% 0 0;
+}
+
+.middle_tongue {
+    background-color: black;
+    width: 1px;
+    height: 10px;
+    position: relative;
+    top: 6px;
+    left: 8px;
+}
+
+.top_gum_mouth {
+    width: 16px;
+    height: 20px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(115deg);
+    top: -2px;
+    position: relative;
+    left: 95px;
+}
+
+.bottom_gum_mouth {
+    width: 16px;
+    height: 20px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(115deg);
+    top: -63px;
+    position: relative;
+    left: 94px;
+}
+
+.gum {
+    background-color: blueviolet;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: relative;
+    top: -28px;
+    left: 113px;
+    border: solid 1px;
+}
+
+.sad_mouth {
+    width: 154px;
+    height: 82px;
+    border: solid 5px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    top: 2px;
+    position: relative;
+    left: 22px;
+}
+
+.mouth_paint {
+    width: 199px;
+    height: 88px;
+    border: solid 23px #000;
+    border-color: rgb(167, 13, 13) transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    transform: rotate(180deg);
+    top: -54px;
+    position: relative;
+    left: 0px;
+}
+
+.mouth_paint_smile {
+    width: 113px;
+    height: 51px;
+    border: solid 2px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 100px 100px 0 0;
+    top: -17px;
+    position: relative;
+    left: 21px;
+}
+
+.body {
+    
+}
+
+.left_hand {
+    width: 33px;
+    height: 9px;
+    background-color: rgb(248, 182, 228);
+    position: relative;
+    border-radius: 50% 0% 0% 50%;
+    left: 48px;
+    top: 4px;
+    transform: rotate(30deg);
+}
+
+.right_hand {
+    width: 33px;
+    height: 9px;
+    background-color: rgb(248, 182, 228);
+    position: relative;
+    border-radius: 0% 50% 50% 0%;
+    left: 114px;
+    top: -5px;
+    transform: rotate(-30deg);
+}
+
+.torso {
+    width: 42px;
+    height: 60px;
+    background-color: rgb(248, 182, 228);
+    border-radius: 27%;
+    left: 76px;
+    position: relative;
+    top: -18px;
+}
+
+.shirt {
+    width: 42px;
+    height: 35px;
+    background-color: rgba(238, 255, 0, 0.767);
+    border-radius: 27% 27% 0% 0%;
+    position: absolute;
+}
+
+.belt {
+    width: 42px;
+    height: 5px;
+    background-color: rgb(161, 106, 61);
+    top: 35px;
+    position: absolute;
+}
+
+.trousers {
+    width: 42px;
+    height: 20px;
+    background-color: rgb(59, 36, 223);
+    border-radius: 0% 0% 27% 27%;
+    top: 40px;
+    position: absolute;
+}
+
+.left_leg {
+    width: 9px;
+    height: 9px;
+    background-color: rgb(0, 0, 0);
+    position: relative;
+    border-radius: 0% 0% 50% 50%;
+    left: 78px;
+    top: -20px;
+}
+
+.right_leg {
+    width: 9px;
+    height: 9px;
+    background-color: rgb(0, 0, 0);
+    position: relative;
+    border-radius: 0% 0% 50% 50%;
+    left: 107px;
+    top: -29px;
+}
+
+.head_decoration {
+    position: absolute;
+    left: 142px;
+    top: 25px;
+    width: 25px;
+}
+
+.hat_top {
+    width: 42px;
+    height: 13px;
+    background-color: #665d5d;
+    position: relative;
+}
+
+.hat_decoration {
+    width: 42px;
+    height: 9px;
+    background-color: rgb(250, 201, 38);
+    position: relative;
+}
+
+.hat_base {
+    width: 74px;
+    height: 9px;
+    background-color: #665d5d;
+    left: -16px;
+    position: relative;
+    border-radius: 50px;
+}
+
+.crown_base {
+    background-color: yellow;
+    width: 100px;
+    height: 32px;
+    left: -27px;
+    position: absolute;
+    border-radius: 50px;
+    top: 15px;
+}
+
+.crown_spike {
+    background-color: yellow;
+    width: 20px;
+    height: 17px;
+    border-radius: 50% 50% 0% 0%;
+}
+
+.spike_1 {
+    left: -38px;
+    position: relative;
+    height: 37px;
+    transform: rotate(-35deg);
+    top: -6px;
+}
+
+.spike_2 {
+    left: -8px;
+    position: relative;
+    height: 37px;
+    top: -54px;
+}
+
+.spike_3 {
+    left: 26px;
+    position: relative;
+    height: 37px;
+    top: -91px;
+}
+
+.spike_4 {
+    left: 60px;
+    position: relative;
+    height: 37px;
+    transform: rotate(35deg);
+    top: -116px;
+}
+
+.jewel_spike {
+    background-color: red;
+    width: 10px;
+    height: 15px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.jewel_1 {
+    top: 6px;
+    left: 5px;
+}
+
+.jewel_2 {
+    top: 6px;
+    left: 5px;
+}
+
+.jewel_3 {
+    top: 6px;
+    left: 5px;
+}
+
+.jewel_4 {
+    top: 6px;
+    left: 5px;
+}
+
+.jewel_base {
+    background-color: #12bb12;
+    width: 12px;
+    height: 20px;
+    border-radius: 50%;
+    position: relative;
+    left: 41px;
+    top: 6px;
+}
+
+.simple_hair {
+    width: 5px;
+    position: absolute;
+}
+
+.hair1 {
+    background-color: black;
+    position: relative;
+    height: 10px;
+    top: 24px;
+    left: -17px;
+    transform: rotate(-19deg);
+    border-radius: 50% 50% 0% 0%;
+}
+
+.hair2 {
+    background-color: black;
+    position: relative;
+    height: 10px;
+    top: 8px;
+    left: -1px;
+    transform: rotate(-13deg);
+    border-radius: 50% 50% 0% 0%;
+}
+
+.hair3 {
+    background-color: black;
+    position: relative;
+    height: 10px;
+    top: -4px;
+    left: 18px;
+    border-radius: 50% 50% 0% 0%;
+}
+
+.hair4 {
+    background-color: black;
+    position: relative;
+    height: 10px;
+    top: -12px;
+    left: 38px;
+    transform: rotate(13deg);
+    border-radius: 50% 50% 0% 0%;
+}
+
+.hair5 {
+    background-color: black;
+    position: relative;
+    height: 10px;
+    top: -17px;
+    left: 54px;
+    transform: rotate(19deg);
+    border-radius: 50% 50% 0% 0%;
+}
+
+.left_grandpa_hair {
+    position: absolute;
+    left: -33px;
+    top: 16px;
+}
+
+.right_grandpa_hair {
+    position: absolute;
+    left: 49px;
+    top: 16px;
+}
+
+.left_grandpa_small_hair {
+    background-color: white;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    border-radius: 50%;
+    left: 18px;
+}
+
+.left_grandpa_big_hair {
+    background-color: white;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.left_grandpa_medium_hair {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: -13px;
+    top: 6px;
+}
+
+.right_grandpa_small_hair {
+    background-color: white;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    border-radius: 50%;
+    left: -13px;
+}
+
+.right_grandpa_big_hair {
+    background-color: white;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.right_grandpa_medium_hair {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: 18px;
+    top: 6px;
+}
+
+.christmas_hat_base {
+
+}
+
+.christmas_hat_base_1 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: -34px;
+    top: 16px;
+}
+
+.christmas_hat_base_2 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: -21px;
+    top: 16px;
+}
+
+.christmas_hat_base_3 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: -4px;
+    top: 16px;
+}
+
+.christmas_hat_base_4 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: 10px;
+    top: 16px;
+}
+
+.christmas_hat_base_5 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: 27px;
+    top: 16px;
+}
+
+.christmas_hat_base_6 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: 42px;
+    top: 16px;
+}
+
+.christmas_hat_base_7 {
+    background-color: white;
+    height: 29px;
+    width: 29px;
+    position: absolute;
+    border-radius: 50%;
+    left: 55px;
+    top: 16px;
+}
+
+.christmas_hat_body {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 70px solid rgb(201, 4, 4);
+    top: -50px;
+    position: absolute;
+    left: -25px;
+}
+
+.christmas_hat_ball {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 15px;
+    top: -61px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.afro_main {
+    background-color: black;
+    position: absolute;
+    left: -38px;
+    top: -57px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.afro_left {
+    background-color: black;
+    position: absolute;
+    left: -75px;
+    top: -39px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}
+
+.afro_right {
+    background-color: black;
+    position: absolute;
+    left: 30px;
+    top: -39px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}
+
+.afro_left_top {
+    background-color: black;
+    position: absolute;
+    left: -75px;
+    top: -109px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}
+
+.afro_main_top {
+    background-color: black;
+    position: absolute;
+    left: -38px;
+    top: -121px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.afro_right_top {
+    background-color: black;
+    position: absolute;
+    left: 31px;
+    top: -109px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}
+
+.afro_left_middle {
+    background-color: black;
+    position: absolute;
+    left: -90px;
+    top: -70px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}
+
+.afro_right_middle {
+    background-color: black;
+    position: absolute;
+    left: 47px;
+    top: -70px;
+    width: 90px;
+    height: 102px;
+    border-radius: 50%;
+}

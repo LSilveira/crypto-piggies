@@ -1,0 +1,148 @@
+.movingHead {
+    animation: moveHead 5s infinite;
+}
+
+.movingLeftArm {
+    animation: moveLeftArm 5s infinite;
+}
+
+.movingRightArm {
+    animation: moveRightArm 5s infinite;
+}
+
+.movingHeadSide {
+    animation: moveHeadSide 5s infinite;
+}
+
+.shakingNose {
+    animation: shakeNose 1s infinite;
+}
+
+.shakingHead {
+    animation: shakingHead 1s infinite;
+}
+
+@keyframes moveHead {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes moveLeftArm {
+    0% {
+        transform: rotate(30deg);
+        top: 4px;
+    }
+    25% {
+        transform: rotate(10deg);
+        top: 6px;
+    }
+    50% {
+        transform: rotate(0deg);
+        top: 8px;
+    }
+    75% {
+        transform: rotate(10deg);
+        top: 6px;
+    }
+    100% {
+        transform: rotate(30deg);
+        top: 4px;
+    }
+}
+
+@keyframes moveRightArm {
+    0% {
+        transform: rotate(-30deg);
+        top: -5px;
+    }
+    25% {
+        transform: rotate(-10deg);
+        top: -3px;
+    }
+    50% {
+        transform: rotate(0deg);
+        top: -1px;
+    }
+    75% {
+        transform: rotate(-10deg);
+        top: -3px;
+    }
+    100% {
+        transform: rotate(-30deg);
+        top: -5px;
+    }
+}
+
+@keyframes moveHeadSide {
+    0% {
+        left: 0px;
+    }
+    25% {
+        left: 10px;
+    }
+    50% {
+        left: 0px;
+    }
+    75% {
+        left: -10px;
+    }
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes shakeNose {
+    0% {
+        left: 68px;
+        top: 0px;
+    }
+    25% {
+        left: 73px;
+        top: 5px;
+    }
+    50% {
+        left: 78px;
+        top: 0px;
+    }
+    75% {
+        left: 73px;
+        top: -5px;
+    }
+    100% {
+        left: 68px;
+        top: 0px;
+    }
+}
+
+@keyframes shakingHead {
+    0% {
+        left: -10px;
+        top: 0px;
+    }
+    25% {
+        left: 0px;
+        top: 5px;
+    }
+    50% {
+        left: 10px;
+        top: 0px;
+    }
+    75% {
+        left: 0px;
+        top: -5px;
+    }
+    100% {
+        left: -10px;
+        top: 0px;
+    }
+}
