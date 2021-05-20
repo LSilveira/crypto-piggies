@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider); // url for the network. givenProvider w
 
 var instance;
 var user;
-var contractAddress = "0x779c26138a3f818F4cAd92eFE6A70D07fD327759";
+var contractAddress = "0x8b4C40674eee0681c2f97eFB7f6e78094d33Be9c";
 
 $(document).ready(async function() {
     if (window.ethereum) {
@@ -16,7 +16,8 @@ $(document).ready(async function() {
             })
             .on('data', function(event){
                 console.log(event);
-                alert('Piggy created! Piggy id: ' + event.returnValues.piggyId +
+                $("#piggyCreation").css("display", "block");
+                $("#piggyCreation").text('Piggy created! Piggy id: ' + event.returnValues.piggyId +
                                     ', Dad id: ' + event.returnValues.dadId +
                                     ', Mum id: ' + event.returnValues.mumId +
                                     ', Genes: ' + event.returnValues.genes +
