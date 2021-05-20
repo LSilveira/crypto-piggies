@@ -2,15 +2,52 @@ var web3 = new Web3(Web3.givenProvider); // url for the network. givenProvider w
 
 var instance;
 var user;
-var contractAddress = "0x61FB7AEd5350F3C9EF43CB087C6dcb6ABedA57e8";
+var contractAddress = "0x779c26138a3f818F4cAd92eFE6A70D07fD327759";
 
-$(document).ready(function() {
-    window.ethereum.enable().then(function(accounts) {
-        instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
+$(document).ready(async function() {
+    if (window.ethereum) {
+        window.ethereum.enable().then(function(accounts) {
+            instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
+            user = accounts[0];
+
+            instance.events.Birth()
+            .on("connected", function(subscriptionId){
+                console.log(subscriptionId);
+            })
+            .on('data', function(event){
+                console.log(event);
+                alert('Piggy created! Piggy id: ' + event.returnValues.piggyId +
+                                    ', Dad id: ' + event.returnValues.dadId +
+                                    ', Mum id: ' + event.returnValues.mumId +
+                                    ', Genes: ' + event.returnValues.genes +
+                                    ', Owner: ' + event.returnValues.owner); // same results as the optional callback above
+            })
+            .on('changed', function(event){
+                // remove event from local database
+                console.log(event);
+            })
+            .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                console.log(receipt);
+                console.log(error);
+            })
+
+            console.log(instance);
+        })
+
+    }
+    else if (windows.web3) {
+        web3 = new Web3(window.web3.currentProvider);
+        let accounts = await web3.eth.getAccounts();
         user = accounts[0];
+        instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
 
+        console.log("Old metamask instance");
         console.log(instance);
-    })
+    }
+    else {
+        alert("Browser doesn't have metamask installed");
+    }
+
 })
 
 function createPig() {

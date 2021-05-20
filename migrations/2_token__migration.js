@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("Migrations");
+const PiggyContract = artifacts.require("PiggyContract");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(PiggyContract);
 };
