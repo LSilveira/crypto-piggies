@@ -164,7 +164,7 @@ function mouthdecorationVariation(num) {
 
 function animationVariation(num) {
 
-    $('#dnadanimation').html(num)
+    $('#dnaanimation').html(num)
     switch (num) {
         case 1:
             $('#animationName').html('Stand still')

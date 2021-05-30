@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider); // url for the network. givenProvider w
 
 var instance;
 var user;
-var contractAddress = "0x8b4C40674eee0681c2f97eFB7f6e78094d33Be9c";
+var contractAddress = "0xCCad47b27a35B1B757AFb2a5a08584033200EEf7";
 
 $(document).ready(async function() {
     if (window.ethereum) {
@@ -53,6 +53,7 @@ $(document).ready(async function() {
 
 function createPig() {
     var dnaStr = getDna();
+    
     instance.methods.createPiggyGen0(dnaStr).send({}, function(error, txHash) {
         if(error)
             console.log(error);

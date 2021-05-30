@@ -2,6 +2,17 @@
     display: none;
 }
 
+#catalog {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.catalogRow {
+    width: 500px;
+    padding-left: 167px;
+}
+
 #head {
     background-color: rgb(248, 182, 228);
     width: 200px;
