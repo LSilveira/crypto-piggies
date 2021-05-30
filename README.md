@@ -1,3 +1,3 @@
 # academy-kitties-template
-A starter template for bootcamp students building the cryptokitty clone.
+Crypto-piggies is a Crypto-Kitties clone built during Ethereum Dapp Programming course on Ivan On Tech Academy
 # crypto-piggies
