@@ -52,6 +52,10 @@ contract PiggyContract is IERC721 {
 
     event Birth(address owner, uint256 piggyId, uint256 mumId, uint256 dadId, uint256 genes);
 
+    constructor() {
+        _createPiggy(0, 0, 0, uint256(0), address(0));
+    }
+
     function createPiggyGen0(uint256 _genes) public {
         require(gen0Counter < CREATION_LIMIT_GEN0);
 
@@ -125,6 +129,7 @@ contract PiggyContract is IERC721 {
         return _createPiggy(uint32(_mumId), uint32(_dadId), uint16(generation), newDna, msg.sender);
     }
 
+    /*
     function _mixDna(uint256 _dadId, uint256 _momId) internal pure returns (uint256) {
         // Dad DNA: 11 22 33 44 55 66 77 88
         // Mum DNA: 88 77 66 55 44 33 22 11
@@ -136,6 +141,41 @@ contract PiggyContract is IERC721 {
         newDna = newDna + secondHalf;
 
         return newDna;
+    }
+    */
+
+    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256) {
+        uint256[8] memory geneArray;
+        uint8 random = uint8(block.timestamp % 255); //0-255   00000000-11111111
+        uint256 index = 7;
+
+        for (uint256 i = 1; i <= 128 && index > 0; i*=2) {
+            if (random & i != 0) { // use bit wise to check which DNA element use
+                geneArray[index] = uint8(_mumDna % 100); // set the last element of the new DNA with mum DNA
+            }
+            else {
+                geneArray[index] = uint8(_dadDna % 100); // set the last element of the new DNA with dad DNA
+            }
+
+            // remove last element of DNA
+            _mumDna /= 100;
+            _dadDna /= 100;
+
+            index--;
+        }
+
+        uint256 newGene;
+        //[11, 22, 33, 44, 55, 66, 77, 88]
+        //1122334455667788
+        for (uint256 i = 0; i < 8; i++) {
+            newGene += geneArray[i];
+
+            if (i != 7) {
+                newGene *= 100;
+            }
+        }
+
+        return newGene;
     }
 
     function balanceOf(address owner) external override view returns (uint256 balance) {
@@ -207,7 +247,7 @@ contract PiggyContract is IERC721 {
 
     function setApprovalForAll(address _operator, bool _approved) external override {
         require(_operator != address(0), "No address to be approved");
-        require(msg.sender == _operator , "Owner can't be an operator");
+        require(msg.sender != _operator , "Owner can't be an operator");
 
         _setApprovalForAll(_operator, _approved);
         emit ApprovalForAll(msg.sender, _operator, _approved);

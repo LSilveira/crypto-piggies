@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 contract Ownable {
     address owner;
     
-    modifier onlyOnwer {
+    modifier onlyOwner {
         require(msg.sender == owner);
         _;
     }

@@ -1,14 +1,38 @@
 var web3 = new Web3(Web3.givenProvider); // url for the network. givenProvider will use the provider metamask sends
 
 var instance;
+var marketplaceInstance;
 var user;
-var contractAddress = "0xCCad47b27a35B1B757AFb2a5a08584033200EEf7";
+var contractAddress = "0x52B848D6Ebe0D6d4bd06BBac648087CC07f27871";
+var marketPlaceContractAddress = "0xC576eCA13eE3c030d6DA7Aa6dD6B87E3f1625FE8";
 
 $(document).ready(async function() {
     if (window.ethereum) {
         window.ethereum.enable().then(function(accounts) {
             instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
+            marketplaceInstance = new web3.eth.Contract(marketPlaceAbi, marketPlaceContractAddress, {from: accounts[0]})
             user = accounts[0];
+
+            instance.events.ApprovalForAll()
+            .on("connected", function(subscriptionId){
+                console.log(subscriptionId);
+            })
+            .on('data', function(event){
+                console.log(event);
+                $('.toast').toast('show');
+                $(".sellButton").each(function(index, element) {
+                    let tokenId = $(element).parent().find("#piggyId").val()
+                    $(element).replaceWith("<div class='sellButton enabled' onclick='createOffer(" + tokenId + ")' id='piggy" + tokenId + "' ><b>Create Offer</b></div><br /><span>Price: </span><input type='text' id='' size='5' />");
+                })
+            })
+            .on('changed', function(event){
+                // remove event from local database
+                console.log(event);
+            })
+            .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                console.log(receipt);
+                console.log(error);
+            })
 
             console.log(instance);
             loadPiggies();
@@ -20,6 +44,7 @@ $(document).ready(async function() {
         let accounts = await web3.eth.getAccounts();
         user = accounts[0];
         instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
+        marketplaceInstance = new web3.eth.Contract(marketPlaceAbi, marketPlaceContractAddress, {from: accounts[0]})
 
         console.log("Old metamask instance");
         console.log(instance);
@@ -35,8 +60,15 @@ function loadPiggies() {
     .then(function(result) {
 
         for(let i = 0; i < result.length; i++) {
+            let tokenId = parseInt(result[i].id)
+
+            // remove null piggy from the list
+            if (tokenId == 0) {
+                continue
+            }
             console.log(result[i])
             
+            /*
             console.log("Head: " + result[i].genes.substring(0, 2))
             console.log("Ear: " + result[i].genes.substring(2, 4))
             console.log("Shirt: " + result[i].genes.substring(4, 6))
@@ -47,6 +79,7 @@ function loadPiggies() {
             console.log("Slides: " + result[i].genes.substring(11, 12))
             console.log("Animation: " + result[i].genes.substring(12, 13))
             console.log("Special: " + result[i].genes.substring(13, 14))
+            */
 
             let gen = parseInt(result[i].generation)
             let headBodyColour = parseInt(result[i].genes.substring(0, 2))
@@ -60,7 +93,87 @@ function loadPiggies() {
             let animationVariation = parseInt(result[i].genes.substring(12, 13))
             let special = parseInt(result[i].genes.substring(13, 14))
             
-            $("#catalog").append("<div class='row catalogRow'><div class='col-lg-12 catBox m-2 light-b-shadow'> \
+            // is marketplace contract approved
+            let saleButton
+            instance.methods.isApprovedForAll(user, marketPlaceContractAddress).call()
+            .then(function(approved, error) {
+                
+                if (approved == false){
+                    saleButton = "<div class='sellButton enabled' onclick='approveMarketplace()' id='piggy" + tokenId + "' ><b>Approve</b></div>"
+
+                    updateCatalog(
+                        tokenId, gen, headBodyColour, earNoseColor, shirtColor,
+                        trousersColor, eyeVariation, decorationVariation,
+                        mouthdecorationVariation, slides, animationVariation,
+                        special, saleButton
+                    )
+                }
+                else {
+                    marketplaceInstance.methods.getOffer(tokenId).call()
+                    .then(function(offer, error) {
+                        console.log(offer)
+                        console.log(tokenId)
+                        console.log(error)
+                        if (offer.active == false){ // is there no active offers
+                            saleButton = "<div class='sellButton enabled' onclick='createOffer(" + tokenId + ")' id='piggy" + tokenId + "' ><b>Create Offer</b></div><br /><span>Price: </span><input type='text' id='price' size='5' />"
+                        }
+                        else { // offer already exists
+                            saleButton = "<div class='sellButton enabled' onclick='removeOffer(" + tokenId + ")' id='piggy" + tokenId + "' ><b>Remove Offer</b></div>"
+                        }
+
+                        updateCatalog(
+                            tokenId, gen, headBodyColour, earNoseColor, shirtColor,
+                            trousersColor, eyeVariation, decorationVariation,
+                            mouthdecorationVariation, slides, animationVariation,
+                            special, saleButton
+                        )
+
+                    })
+                }
+            })
+
+        }
+
+    });
+}
+
+function createOffer(tokenId) {
+    let price = parseInt($("#piggy" + tokenId).parent().find("#price").val())
+    console.log(price)
+    console.log(user)
+    if(!isNaN(price)) {
+        marketplaceInstance.methods.setOffer(price, user).send({}, function(error, txHash) {
+            if(error)
+                console.log(error);
+            else
+                console.log(txHash);
+                
+                let element = $("#piggy"+ tokenId)
+                let tokenId = $(element).parent().find("#piggyId").val()
+                $(element).replaceWith("<div class='sellButton enabled' onclick='removeOffer(" + tokenId + ")' id='piggy" + tokenId + "' ><b>Remove Offer</b></div>");
+        })
+    }
+    else {
+        alert("Empty price!")
+    }
+}
+
+function updateCatalog (
+    tokenId,
+    gen,
+    headBodyColour,
+    earNoseColor,
+    shirtColor,
+    trousersColor,
+    eyeVariation,
+    decorationVariation,
+    mouthdecorationVariation,
+    slides,
+    animationVariation,
+    special,
+    saleButton
+) {
+    $("#catalog").append("<div class='row catalogRow'><div class='col-lg-12 catBox m-2 light-b-shadow'> \
                             <div class='cat'> \
                                 <div class='ears'> \
                                     <div class='ear left_ear' style='" + updateColour(headBodyColour) + "' > \
@@ -130,16 +243,19 @@ function loadPiggies() {
                                 </b> \
                                 <br \> \
                                 <b id='gen'>Gen: " + gen + "</b>\
+                                <br \> \
+                                <b>Sell? : </b>" + saleButton + "<input type='hidden' id='piggyId' value='" + tokenId + "' /> \
                             </div> \
                         </div></div>");
+}
 
-            if (i != 0 && i % 2 == 0) {
-                $("#catalog").append("<br \><br \>")
-            }
-
-        }
-
-    });
+function approveMarketplace() {
+    instance.methods.setApprovalForAll(marketPlaceContractAddress, true).send({}, function(error, txHash) {
+        if(error)
+            console.log(error);
+        else
+            console.log(txHash);
+    })
 }
 
 function updateColour(colour) {

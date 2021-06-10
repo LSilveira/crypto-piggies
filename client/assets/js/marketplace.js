@@ -35,16 +35,8 @@ function loadPiggies() {
     .then(function(result) {
 
         for(let i = 0; i < result.length; i++) {
-            
-            let tokenId = parseInt(result[i].id)
-
-            // remove null piggy from the list
-            if (tokenId == 0) {
-                continue
-            }
             console.log(result[i])
             
-            console.log("Id: " + result[i].id)
             console.log("Head: " + result[i].genes.substring(0, 2))
             console.log("Ear: " + result[i].genes.substring(2, 4))
             console.log("Shirt: " + result[i].genes.substring(4, 6))
@@ -138,54 +130,16 @@ function loadPiggies() {
                                 </b> \
                                 <br \> \
                                 <b id='gen'>Gen: " + gen + "</b>\
-                                <br \> \
-                                <b>Breed: </b><input type='checkbox' id='piggy" + tokenId + "' class='selectedParent' onclick='selectParents(\"piggy" + tokenId + "\")' \><input type='hidden' id='parentId' value='" + tokenId + "' /> \
                             </div> \
                         </div></div>");
+
+            if (i != 0 && i % 2 == 0) {
+                $("#catalog").append("<br \><br \>")
+            }
 
         }
 
     });
-}
-
-$(".breedButton").click(function() {
-    if($(this).hasClass('enabled')) {
-        var parents = [];
-
-        $.each($('.selectedParent:checked'), function(){
-            parents.push($(this).parent().find("#parentId").val());
-        });
-        
-        if (parents.length == 2) {
-            instance.methods.breed(parents[0], parents[1]).send({}, function(error, txHash) {
-                if(error)
-                    console.log(error);
-                else
-                    console.log(txHash);
-                    location.reload()
-            })
-        }
-        else {
-            alert("Cannot select more than two parents!")
-        }
-    }
-})
-
-function selectParents(clickedId) {
-    let numSelectedParents = $('.selectedParent:checked').length
-
-    if (numSelectedParents == 2) {
-        $('.breedButton').addClass('enabled');
-        $('.breedButton').removeClass('disabled');
-    }
-    else if (numSelectedParents > 2) {
-        alert("Cannot select more than two parents!");
-        $("#" + clickedId).prop( "checked", false )
-    }
-    else {
-        $('.breedButton').addClass('disabled');
-        $('.breedButton').removeClass('enabled');
-    }
 }
 
 function updateColour(colour) {
