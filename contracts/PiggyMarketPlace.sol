@@ -60,10 +60,12 @@ contract PiggyMarketPlace is Ownable, IPiggyMarketPlace {
     function getAllTokenOnSale() public override view returns(uint256[] memory listOfOffers) {
         require(offers.length != 0, "There are no offers!");
         
+        uint256 counter = 0;
         listOfOffers = new uint256[](offers.length);
         for (uint256 i = 0; i < offers.length; i++) {
             if (offers[i].active) {
-                listOfOffers[listOfOffers.length] = offers[i].tokenId;
+                listOfOffers[counter] = offers[i].tokenId;
+                counter++;
             }
         }
     }

@@ -1,14 +1,37 @@
 var web3 = new Web3(Web3.givenProvider); // url for the network. givenProvider will use the provider metamask sends
 
 var instance;
+var marketplaceInstance;
 var user;
-var contractAddress = "0x52B848D6Ebe0D6d4bd06BBac648087CC07f27871";
+var contractAddress = "0xE168B15ed08FE61075571AaCdEC1CdF6c7b88277";
+var marketPlaceContractAddress = "0xE69be00B8D2C27703789fea25b6765eEc89935F0";
 
 $(document).ready(async function() {
     if (window.ethereum) {
         window.ethereum.enable().then(function(accounts) {
             instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]})
+            marketplaceInstance = new web3.eth.Contract(marketPlaceAbi, marketPlaceContractAddress, {from: accounts[0]})
             user = accounts[0];
+
+            marketplaceInstance.events.MarketTransaction()
+            .on("connected", function(subscriptionId){
+                console.log(subscriptionId);
+            })
+            .on('data', function(event){
+                console.log(event);
+                
+                if (event.returnValues.TxType == "Buy") {
+                    location.replace("./catalog.html")
+                }
+            })
+            .on('changed', function(event){
+                // remove event from local database
+                console.log(event);
+            })
+            .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                console.log(receipt);
+                console.log(error);
+            })
 
             console.log(instance);
             loadPiggies();
@@ -30,116 +53,162 @@ $(document).ready(async function() {
 
 })
 
-function loadPiggies() {
-    instance.methods.getPiggies().call()
-    .then(function(result) {
+async function loadPiggies() {
 
-        for(let i = 0; i < result.length; i++) {
-            console.log(result[i])
-            
-            console.log("Head: " + result[i].genes.substring(0, 2))
-            console.log("Ear: " + result[i].genes.substring(2, 4))
-            console.log("Shirt: " + result[i].genes.substring(4, 6))
-            console.log("Trousers: " + result[i].genes.substring(6, 8))
-            console.log("Eye: " + result[i].genes.substring(8, 9))
-            console.log("Decoration: " + result[i].genes.substring(9, 10))
-            console.log("Mouth: " + result[i].genes.substring(10, 11))
-            console.log("Slides: " + result[i].genes.substring(11, 12))
-            console.log("Animation: " + result[i].genes.substring(12, 13))
-            console.log("Special: " + result[i].genes.substring(13, 14))
+    let result
+    try {
+        result = await marketplaceInstance.methods.getAllTokenOnSale().call()
+    }
+    catch {
+        $("#offers").html("There no offers!")
+        return
+    }
 
-            let gen = parseInt(result[i].generation)
-            let headBodyColour = parseInt(result[i].genes.substring(0, 2))
-            let earNoseColor = parseInt(result[i].genes.substring(2, 4))
-            let shirtColor = parseInt(result[i].genes.substring(4, 6))
-            let trousersColor = parseInt(result[i].genes.substring(6, 8))
-            let eyeVariation = parseInt(result[i].genes.substring(8, 9))
-            let decorationVariation = parseInt(result[i].genes.substring(9, 10))
-            let mouthdecorationVariation = parseInt(result[i].genes.substring(10, 11))
-            let slides = parseInt(result[i].genes.substring(11, 12))
-            let animationVariation = parseInt(result[i].genes.substring(12, 13))
-            let special = parseInt(result[i].genes.substring(13, 14))
-            
-            $("#catalog").append("<div class='row catalogRow'><div class='col-lg-12 catBox m-2 light-b-shadow'> \
-                            <div class='cat'> \
-                                <div class='ears'> \
-                                    <div class='ear left_ear' style='" + updateColour(headBodyColour) + "' > \
-                                        <div class='inner_ear inner_ear_left' style='" + updateColour(earNoseColor) + "' ></div> \
-                                    </div> \
-                                    <div class='ear right_ear' style='" + updateColour(headBodyColour) + "' > \
-                                        <div class='inner_ear inner_ear_right' style='" + updateColour(earNoseColor) + "' ></div> \
-                                    </div> \
-                                </div> \
-                                <div id='head' class='" + updateMovingHeadAnimation(animationVariation) + " " + updateHeadMoveSideAnimation(animationVariation) + " " + updateShakeHeadAnimation(animationVariation) + " " + updateSpecialAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' > \
-                                    <div class='eyes'> \
-                                        <div class='eye'> \
-                                            <div class='pupils left_pupil' style='" + updatePupilsCss(eyeVariation) + " " + updateLeftPupils(eyeVariation) + "'> \
-                                                <div class='big_pupil_ball left_big_pupil " + updateBigPupilsClass(eyeVariation) + "' style='" + updateBigPupilsCss(eyeVariation) + " " + updateLeftBigPupils(eyeVariation) + "'></div> \
-                                                <div class='small_pupil_ball left_small_pupil' style='" + updateSmallPupilsCss(eyeVariation) + " " + updateLeftSmallPupils(eyeVariation) + "'></div> \
-                                                <div class='medium_pupil_ball' style='" + updateMediumPupilsCss(eyeVariation) + "'></div> \
-                                            </div> \
-                                        </div> \
-                                        <div class='eye'> \
-                                            <div class='pupils right_pupil' style='" + updatePupilsCss(eyeVariation) + " " + updateRightPupils(eyeVariation) + "'> \
-                                                <div class='big_pupil_ball right_big_pupil " + updateBigPupilsClass(eyeVariation) + "' style='" + updateBigPupilsCss(eyeVariation) + " " + updateRightBigPupils(eyeVariation) + "'></div> \
-                                                <div class='small_pupil_ball right_small_pupil' style='" + updateSmallPupilsCss(eyeVariation) + " " + updateRightSmallPupils(eyeVariation) + "'></div> \
-                                                <div class='medium_pupil_ball' style='" + updateMediumPupilsCss(eyeVariation) + "'></div> \
-                                            </div> \
-                                        </div> \
-                                    </div> \
-                                    <div class='nose " + updateShakeNoseAnimation(animationVariation) + "'> \
-                                        <div class='nose_whole nose_whole_left' style='" + updateColour(earNoseColor) + "' ></div> \
-                                        <div class='nose_whole nose_whole_right' style='" + updateColour(earNoseColor) + "' ></div> \
-                                    </div> \
-                                    <div class='mouth_decoration'> \
-                                        " + updateMouthDecoration(mouthdecorationVariation) + "\
-                                    </div> \
-                                </div> \
-                                <div class='head_decoration'> \
-                                    " + updateHeadDecoration(decorationVariation) + " \
-                                </div> \
-                                <div class='body'> \
-                                    <div class='left_hand " + updateShakeLeftHandsAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' ></div> \
-                                    <div class='right_hand " + updateShakeRightHandsAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' ></div> \
-                                    <div class='torso'> \
-                                        <div class='shirt' style='" + updateColour(shirtColor) + "'></div> \
-                                        <div class='belt'></div> \
-                                        <div class='trousers' style='" + updateColour(trousersColor) + "'></div> \
-                                    </div> \
-                                    <div class='left_leg'></div> \
-                                    <div class='right_leg'></div> \
-                                </div> \
-                            </div> \
-                            <br> \
-                            <div class='dnaDiv' id='catDNA'> \
-                                <b> \
-                                    DNA: \
-                                    <!-- Colors --> \
-                                    <span id='dnabody'>" + headBodyColour + "</span> \
-                                    <span id='dnaearnose'>" + earNoseColor + "</span> \
-                                    <span id='dnashirt'>" + shirtColor + "</span> \
-                                    <span id='dnatrousers'>" + trousersColor + "</span> \
-                                    \
-                                    <!-- Cattributes --> \
-                                    <span id='dnashape'>" + eyeVariation + "</span> \
-                                    <span id='dnadecoration'>" + decorationVariation + "</span> \
-                                    <span id='dnadecorationMid'>" + mouthdecorationVariation + "</span> \
-                                    <span id='dnadecorationSides'>" + slides + "</span> \
-                                    <span id='dnaanimation'>" + animationVariation + "</span> \
-                                    <span id='dnaspecial'>" + special + "</span> \
-                                </b> \
-                                <br \> \
-                                <b id='gen'>Gen: " + gen + "</b>\
-                            </div> \
-                        </div></div>");
+    for(let i = 0; i < result.length; i++) {
 
-            if (i != 0 && i % 2 == 0) {
-                $("#catalog").append("<br \><br \>")
-            }
+        let tokenId = result[i]
+        let piggy = await instance.methods.getPiggy(tokenId).call()
+        let offer = await marketplaceInstance.methods.getOffer(tokenId).call()
 
+        if (!offer.active) {
+            continue
         }
+        
+        console.log("Head: " + piggy.genes.substring(0, 2))
+        console.log("Ear: " + piggy.genes.substring(2, 4))
+        console.log("Shirt: " + piggy.genes.substring(4, 6))
+        console.log("Trousers: " + piggy.genes.substring(6, 8))
+        console.log("Eye: " + piggy.genes.substring(8, 9))
+        console.log("Decoration: " + piggy.genes.substring(9, 10))
+        console.log("Mouth: " + piggy.genes.substring(10, 11))
+        console.log("Slides: " + piggy.genes.substring(11, 12))
+        console.log("Animation: " + piggy.genes.substring(12, 13))
+        console.log("Special: " + piggy.genes.substring(13, 14))
 
-    });
+        let gen = parseInt(piggy.generation)
+        let headBodyColour = parseInt(piggy.genes.substring(0, 2))
+        let earNoseColor = parseInt(piggy.genes.substring(2, 4))
+        let shirtColor = parseInt(piggy.genes.substring(4, 6))
+        let trousersColor = parseInt(piggy.genes.substring(6, 8))
+        let eyeVariation = parseInt(piggy.genes.substring(8, 9))
+        let decorationVariation = parseInt(piggy.genes.substring(9, 10))
+        let mouthdecorationVariation = parseInt(piggy.genes.substring(10, 11))
+        let slides = parseInt(piggy.genes.substring(11, 12))
+        let animationVariation = parseInt(piggy.genes.substring(12, 13))
+        let special = parseInt(piggy.genes.substring(13, 14))
+
+        let piggyButton;
+        
+        if (offer.seller.toUpperCase() == user.toUpperCase()) {
+            piggyButton = "<input type='button' id='removePiggy' onclick='removePiggy(" + tokenId + ")' value='Remove Offer' style='float: right' />"
+        }
+        else {
+            piggyButton = "<input type='button' id='buyPiggy' onclick='buyPiggy(" + tokenId + ", " + offer.price +")' value='Buy' style='float: right' />"
+        }
+        
+        $("#offers").append("<div class='row catalogRow'><div class='col-lg-12 catBox m-2 light-b-shadow'> \
+                        <div class='cat'> \
+                            <div class='ears'> \
+                                <div class='ear left_ear' style='" + updateColour(headBodyColour) + "' > \
+                                    <div class='inner_ear inner_ear_left' style='" + updateColour(earNoseColor) + "' ></div> \
+                                </div> \
+                                <div class='ear right_ear' style='" + updateColour(headBodyColour) + "' > \
+                                    <div class='inner_ear inner_ear_right' style='" + updateColour(earNoseColor) + "' ></div> \
+                                </div> \
+                            </div> \
+                            <div id='head' class='" + updateMovingHeadAnimation(animationVariation) + " " + updateHeadMoveSideAnimation(animationVariation) + " " + updateShakeHeadAnimation(animationVariation) + " " + updateSpecialAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' > \
+                                <div class='eyes'> \
+                                    <div class='eye'> \
+                                        <div class='pupils left_pupil' style='" + updatePupilsCss(eyeVariation) + " " + updateLeftPupils(eyeVariation) + "'> \
+                                            <div class='big_pupil_ball left_big_pupil " + updateBigPupilsClass(eyeVariation) + "' style='" + updateBigPupilsCss(eyeVariation) + " " + updateLeftBigPupils(eyeVariation) + "'></div> \
+                                            <div class='small_pupil_ball left_small_pupil' style='" + updateSmallPupilsCss(eyeVariation) + " " + updateLeftSmallPupils(eyeVariation) + "'></div> \
+                                            <div class='medium_pupil_ball' style='" + updateMediumPupilsCss(eyeVariation) + "'></div> \
+                                        </div> \
+                                    </div> \
+                                    <div class='eye'> \
+                                        <div class='pupils right_pupil' style='" + updatePupilsCss(eyeVariation) + " " + updateRightPupils(eyeVariation) + "'> \
+                                            <div class='big_pupil_ball right_big_pupil " + updateBigPupilsClass(eyeVariation) + "' style='" + updateBigPupilsCss(eyeVariation) + " " + updateRightBigPupils(eyeVariation) + "'></div> \
+                                            <div class='small_pupil_ball right_small_pupil' style='" + updateSmallPupilsCss(eyeVariation) + " " + updateRightSmallPupils(eyeVariation) + "'></div> \
+                                            <div class='medium_pupil_ball' style='" + updateMediumPupilsCss(eyeVariation) + "'></div> \
+                                        </div> \
+                                    </div> \
+                                </div> \
+                                <div class='nose " + updateShakeNoseAnimation(animationVariation) + "'> \
+                                    <div class='nose_whole nose_whole_left' style='" + updateColour(earNoseColor) + "' ></div> \
+                                    <div class='nose_whole nose_whole_right' style='" + updateColour(earNoseColor) + "' ></div> \
+                                </div> \
+                                <div class='mouth_decoration'> \
+                                    " + updateMouthDecoration(mouthdecorationVariation) + "\
+                                </div> \
+                            </div> \
+                            <div class='head_decoration'> \
+                                " + updateHeadDecoration(decorationVariation) + " \
+                            </div> \
+                            <div class='body'> \
+                                <div class='left_hand " + updateShakeLeftHandsAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' ></div> \
+                                <div class='right_hand " + updateShakeRightHandsAnimation(animationVariation) + "' style='" + updateColour(headBodyColour) + "' ></div> \
+                                <div class='torso'> \
+                                    <div class='shirt' style='" + updateColour(shirtColor) + "'></div> \
+                                    <div class='belt'></div> \
+                                    <div class='trousers' style='" + updateColour(trousersColor) + "'></div> \
+                                </div> \
+                                <div class='left_leg'></div> \
+                                <div class='right_leg'></div> \
+                            </div> \
+                        </div> \
+                        <br> \
+                        <div class='dnaDiv' id='catDNA'> \
+                            <b> \
+                                DNA: \
+                                <!-- Colors --> \
+                                <span id='dnabody'>" + headBodyColour + "</span> \
+                                <span id='dnaearnose'>" + earNoseColor + "</span> \
+                                <span id='dnashirt'>" + shirtColor + "</span> \
+                                <span id='dnatrousers'>" + trousersColor + "</span> \
+                                \
+                                <!-- Cattributes --> \
+                                <span id='dnashape'>" + eyeVariation + "</span> \
+                                <span id='dnadecoration'>" + decorationVariation + "</span> \
+                                <span id='dnadecorationMid'>" + mouthdecorationVariation + "</span> \
+                                <span id='dnadecorationSides'>" + slides + "</span> \
+                                <span id='dnaanimation'>" + animationVariation + "</span> \
+                                <span id='dnaspecial'>" + special + "</span> \
+                            </b> \
+                            <br \> \
+                            <b id='gen'>Gen: " + gen + "</b>\
+                            <br \> \
+                            <b>Price : </b>" + web3.utils.fromWei(offer.price, "ether") + " ETH <input type='hidden' id='piggyId' value='" + tokenId + "' /> \
+                           " + piggyButton + " \
+                        </div> \
+                    </div></div>");
+
+    }
+
+}
+
+async function buyPiggy(tokenId, price) {
+
+    var config = {
+        value: price
+    }
+
+    await marketplaceInstance.methods.buyPiggy(tokenId).send(config)
+    .on("transactionHash", function(hash) {
+        console.log("Hash:" + hash);
+    })
+    .on("confirmation", function (confirmationNr) {
+        console.log("Confirmation: " + confirmationNr);
+    })
+    .on("receipt", function(receipt) {
+        console.log(receipt);
+/*
+        let isWinner = receipt.events.MarketTransaction.returnValues[0];
+
+        if (event.TxType == "Buy") {
+            location.replace("./catalog.html")
+        }*/
+        
+    })
 }
 
 function updateColour(colour) {
